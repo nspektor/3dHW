@@ -119,11 +119,20 @@ void parse_file ( char * filename,
     else if ( strncmp(line, "hermite", strlen(line)) == 0 ) {
       //printf("HERMITE\n");
       fgets(line, 255, f);
-      sscanf(line, "%lf %lf %lf %lf %lf %lf %lf %lf",
-	     &x1, &y1, &x2, &y2, &x3, &y3, &x4, &y4);
+      sscanf(line, "%lf %lf %lf %lf %lf %lf %lf %lf", &x1, &y1, &x2, &y2, &x3, &y3, &x4, &y4);
       add_curve(pm, x1, y1, x2, y2, x3, y3, x4, y4, 0.01, HERMITE_MODE );
       //printf( "%lf %lf %lf\n", x, y, z);
+    }
+    else if ( strncmp(line, "box", strlen(line)) == 0 ) {
+      //printf("BOX\n");
+      fgets(line, 255, f);
+      sscanf(line, "%lf %lf %lf %lf %lf %lf",
+	     &x, &y, &z, width, height, depth);
+      add_box(pm, x, y, z, width, height, depth);
+      //printf( "%lf %lf %lf\n", x, y, z);
     }    
+
+    
     else if ( strncmp(line, "scale", strlen(line)) == 0 ) {
       //printf("SCALE\n");
       fgets(line, 255, f);
@@ -187,8 +196,16 @@ void parse_file ( char * filename,
       draw_lines(pm, s, g);
       save_extension(s, line);
     }
+    else if ( strncmp(line, "clear", strlen(line)) == 0 ) {
+      fgets(line, 255, f);
+      // line[strlen(line)-1] = '\0';
+      clear_screen(s);
+    }
+    
     else if ( strncmp(line, "quit", strlen(line)) == 0 ) {
       return;
+    }
+    else if (strncmp(line, "#", strlen(1)) == 0){
     }
     else {
       printf("Invalid command\n");
