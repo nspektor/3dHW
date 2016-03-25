@@ -27,7 +27,11 @@
 void add_sphere( struct matrix * points, 
 		 double cx, double cy, double r, 
 		 double step ) {
-  
+  generate_sphere(points, cx, cy, r, step);
+  int i = 0;
+  for(i = 0; i++; i< points->lastcol){
+    add_edge(points,points->m[0][i], points->m[1][i], points->m[2][i], points->m[0][i], points->m[1][i], points->m[2][i]);
+  }
 }
 
 /*======== void generate_sphere() ==========
@@ -49,6 +53,7 @@ void add_sphere( struct matrix * points,
 void generate_sphere( struct matrix * points, 
 		      double cx, double cy, double r, 
 		      double step ) {
+
 }    
 
 /*======== void add_torus() ==========
@@ -72,6 +77,11 @@ void generate_sphere( struct matrix * points,
 void add_torus( struct matrix * points, 
 		double cx, double cy, double r1, double r2, 
 		double step ) {
+  generate_torus(points, cx, cy, r1, r2, step);
+  int i = 0;
+  for(i = 0; i++; i< points->lastcol){
+    add_edge(points,points->m[0][i], points->m[1][i], points->m[2][i], points->m[0][i], points->m[1][i], points->m[2][i]);
+  }
 }
 
 /*======== void generate_torus() ==========
@@ -113,6 +123,23 @@ void generate_torus( struct matrix * points,
 void add_box( struct matrix * points,
 	      double x, double y, double z,
 	      double width, double height, double depth ) {
+  //front rectangle
+  add_edge(points, x, y, z, x+width, y, z);
+  add_edge(points, x+width, y, z, x+width, y-height, z);
+  add_edge(points, x, y-height, z, x+width, y-height, z);
+  add_edge(points, x, y, z, x, y-height, z);
+  
+  //lines going back
+  add_edge(points, x, y, z, x, y, z-depth);
+  add_edge(points, x+width, y, z, x+width, y, z-depth);
+  add_edge(points, x+width, y-height, z, x+width, y-height, z-depth); 
+  add_edge(points, x, y-height, z, x, y-height, z-depth); 
+
+  //back rectangle
+  add_edge(points, x, y, z-depth, x+width, y, z-depth);
+  add_edge(points, x+width, y, z-depth, x+width, y-height, z-depth);
+  add_edge(points, x, y-height, z-depth, x+width, y-height, z-depth);
+  add_edge(points, x, y, z-depth, x, y-height, z-depth);
 }
   
 /*======== void add_circle() ==========

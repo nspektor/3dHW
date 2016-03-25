@@ -127,12 +127,24 @@ void parse_file ( char * filename,
       //printf("BOX\n");
       fgets(line, 255, f);
       sscanf(line, "%lf %lf %lf %lf %lf %lf",
-	     &x, &y, &z, width, height, depth);
+	     &x, &y, &z, &width, &height, &depth);
       add_box(pm, x, y, z, width, height, depth);
       //printf( "%lf %lf %lf\n", x, y, z);
     }    
-
-    
+    else if ( strncmp(line, "sphere", strlen(line)) == 0 ) {
+      //printf("SPHERE\n");
+      fgets(line, 255, f);
+      sscanf(line, "%lf %lf %lf", &x, &y, &radius);
+      add_sphere(pm, x, y, radius);
+      //printf( "%lf %lf %lf\n", x, y, z);
+    }    
+    else if ( strncmp(line, "torus", strlen(line)) == 0 ) {
+      //printf("TORUS\n");ds
+      fgets(line, 255, f);
+      sscanf(line, "%lf %lf %lf %lf"  &x, &y, &radius1, &radius2 );
+      add_torus(pm, x, y, radius1, radius2);
+      //printf( "%lf %lf %lf\n", x, y, z);
+    }    
     else if ( strncmp(line, "scale", strlen(line)) == 0 ) {
       //printf("SCALE\n");
       fgets(line, 255, f);
