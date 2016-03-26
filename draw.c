@@ -29,7 +29,7 @@ void add_sphere( struct matrix * points,
 		 double step ) {
   generate_sphere(points, cx, cy, r, step);
   int i = 0;
-  for(i = 0; i++; i< points->lastcol){
+  for(i = 0; i< points->lastcol; i++){
     add_edge(points,points->m[0][i], points->m[1][i], points->m[2][i], points->m[0][i], points->m[1][i], points->m[2][i]);
   }
 }
@@ -53,7 +53,27 @@ void add_sphere( struct matrix * points,
 void generate_sphere( struct matrix * points, 
 		      double cx, double cy, double r, 
 		      double step ) {
+  //t = θ = angle of circle generation
+  //p = ϕ = angle of circle rotation
+  double x0, y0, z0, x, y, z, t, p;
 
+  x0 = cx + r;
+  y0 = cy;
+  z0 = 0;
+  for ( t = step; t <= 1; t+= step ) {
+    for ( p = step; p <= 1; p+= step ) {
+      x = r * cos( 2 * M_PI * t ) + cx;
+      y = r * sin( 2 * M_PI * t ) * cos( 2 * M_PI * p ) + cy; //-sinp ?
+      z =  r * sin( 2 * M_PI * t ) * sin( 2 * M_PI * p ) + 0; //-cos p?
+    
+    add_point(points, x0, y0, z0);
+    x0 = x;
+    y0 = y;
+    z0 = z;
+    }
+  }
+
+  add_point( points, x0, y0, z0);
 }    
 
 /*======== void add_torus() ==========
@@ -79,7 +99,7 @@ void add_torus( struct matrix * points,
 		double step ) {
   generate_torus(points, cx, cy, r1, r2, step);
   int i = 0;
-  for(i = 0; i++; i< points->lastcol){
+  for(i = 0; i < points->lastcol; i++){
     add_edge(points,points->m[0][i], points->m[1][i], points->m[2][i], points->m[0][i], points->m[1][i], points->m[2][i]);
   }
 }
@@ -102,6 +122,29 @@ void add_torus( struct matrix * points,
 void generate_torus( struct matrix * points, 
 		     double cx, double cy, double r1, double r2, 
 		     double step ) {
+
+  //t = θ = angle of circle generation
+  //p = ϕ = angle of circle rotation
+  double x0, y0, z0, x, y, z, t, p;
+
+
+  x0 = cx + r1;
+  y0 = cy;
+  z0 = 0;
+  for ( t = step; t <= 1; t+= step ) {
+    for ( p = step; p <= 1; p+= step ) {
+      x = r1 * cos( 2 * M_PI * t ) + cx;
+      y = cos( 2 * M_PI * p)*( r1 * sin( 2 * M_PI * t ) + r2) + cy;
+      z = sin( 2 * M_PI * p)*( r1 * sin( 2 * M_PI * t ) + r2) + 0;
+    
+    add_point(points, x0, y0, z0);
+    x0 = x;
+    y0 = y;
+    z0 = z;
+    }
+  }
+
+  add_point( points, x0, y0, z0);
 }
 
 /*======== void add_box() ==========
